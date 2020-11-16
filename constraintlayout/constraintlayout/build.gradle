@@ -51,6 +51,7 @@ task publishLocal(type: Upload) {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
+            println uri("$rootProject.ext.localRepo")
             repository(url: uri("$rootProject.ext.localRepo"))
             pom.project {
                 name project.ext.pomName

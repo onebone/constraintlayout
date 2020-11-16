@@ -1,0 +1,183 @@
+apply plugin: 'com.android.library'
+// apply plugin: 'java'
+// apply plugin: 'kotlin-android'
+// apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'maven'
+apply plugin: 'kotlin-android'
+// plugins {
+//   id 'kotlin-android'
+// }
+buildscript {
+  repositories {
+    google()
+    jcenter()
+        maven {
+          url "https://plugins.gradle.org/m2/"
+        }
+  }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha04'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+apply plugin: "org.jetbrains.kotlin.android"
+android {
+  compileSdkVersion 28
+  // buildToolsVersion 28
+  useLibrary 'android.test.runner'
+
+  useLibrary 'android.test.base'
+
+  defaultConfig {
+      minSdkVersion 21
+      testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+      targetSdkVersion 29
+  }
+  sourceSets {
+       main.java.srcDirs += 'kotlin'
+   }
+
+  compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_8
+      targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  kotlinOptions {
+     jvmTarget = JavaVersion.VERSION_1_8.toString()
+          useIR = true
+  }
+
+  buildFeatures {
+      compose true
+  }
+  composeOptions {
+        kotlinCompilerVersion "1.4.21"
+        kotlinCompilerExtensionVersion "1.0.0-alpha09"
+    }
+    packagingOptions {
+      exclude 'META-INF/AL2.0'
+      exclude 'META-INF/LGPL2.1'
+    }
+  dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.21'
+
+    implementation 'androidx.compose.runtime:runtime:1.0.0-alpha09'
+    implementation 'androidx.compose.ui:ui:1.0.0-alpha09'
+    implementation 'androidx.compose.ui:ui-unit:1.0.0-alpha09'
+    implementation 'androidx.compose.ui:ui-util:1.0.0-alpha09'
+    implementation 'androidx.compose.foundation:foundation-layout:1.0.0-alpha09'
+    api project(':core')
+    androidTestImplementation 'junit:junit:4.13'
+    // testImplementation 'org.testng:testng:6.9.10'
+//    androidTestImplementation project(':core')
+    androidTestImplementation 'androidx.compose.ui:ui-test:1.0.0-alpha09'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.0-alpha09'
+//    androidTestImplementation 'androidx.compose.runtime:runtime:1.0.0-alpha09'
+//    androidTestImplementation 'androidx.compose.ui:ui:1.0.0-alpha09'
+//    androidTestImplementation 'androidx.compose.ui:ui:1.0.0-alpha09'
+//    androidTestImplementation 'androidx.compose.ui:ui-unit:1.0.0-alpha09'
+//    androidTestImplementation 'androidx.compose.ui:ui-util:1.0.0-alpha09'
+//    androidTestImplementation 'androidx.compose.foundation:foundation-layout:1.0.0-alpha09'
+    androidTestImplementation "androidx.activity:activity:1.1.0"
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+  }
+
+  // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
+   libraryVariants.all {
+       it.generateBuildConfig.enabled = false
+   }
+}
+
+repositories {
+    jcenter()
+    google()
+    mavenCentral()
+}
+
+// buildscript {
+//     ext.kotlin_version = '1.4.21'
+// 
+//     repositories {
+//         jcenter()
+//         google()
+//         mavenCentral()
+//         maven {
+//           url "https://plugins.gradle.org/m2/"
+//         }
+//     }
+// 
+//     dependencies {
+//         classpath 'com.android.tools.build:gradle:4.0.0'
+//     }
+// }
+
+dependencies {
+    api project(':core')
+    // implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.21'
+    // implementation 'androidx.compose.ui:ui:1.0.0-alpha09'
+    // implementation 'androidx.compose.ui:ui-unit:1.0.0-alpha09'
+    // implementation 'androidx.compose.ui:ui-util:1.0.0-alpha09'
+    // implementation 'androidx.compose.foundation:foundation-layout:1.0.0-alpha09'
+    // implementation project(':core')
+    // testCompile 'org.testng:testng:6.9.10'
+}
+
+
+// test {
+//     useTestNG()
+// 
+//     testLogging.showStandardStreams = true
+//     beforeTest { descriptor ->
+//         logger.lifecycle("Running test: " + descriptor)
+//     }
+//     onOutput { descriptor, event ->
+//         logger.lifecycle("Test: " + descriptor + " output: " + event.message )
+//     }
+// }
+
+archivesBaseName = 'constraintlayout-compose'
+
+project.ext.pomName = 'ConstraintLayout for Jetpack Compose'
+project.ext.pomDesc = 'ConstraintLayout for Jetpack Compose'
+
+task publishLocal(type: Upload) {
+    configuration = configurations.archives
+    repositories {
+        mavenDeployer {
+            repository(url: uri("$rootProject.ext.localRepo"))
+            println "BBBB"
+            println uri("$rootProject.ext.localRepo")
+            pom.project {
+                name project.ext.pomName
+                description project.ext.pomDesc
+
+                url 'http://tools.android.com'
+                inceptionYear '2007'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                scm {
+                    url 'https://android.googlesource.com/platform/tools/sherpa'
+                    connection 'git://android.googlesource.com/platform/tools/sherpa.git'
+                }
+                developers {
+                    developer {
+                        name 'The Android Open Source Project'
+                    }
+                }
+            }
+        }
+    }
+
+}

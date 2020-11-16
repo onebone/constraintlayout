@@ -126,6 +126,10 @@ public class ConstraintWidgetContainer extends WidgetContainer {
 
     protected BasicMeasure.Measurer mMeasurer = null;
 
+    public void dummy() {
+//        measure(Optimizer.OPTIMIZATION_NONE, 0, 0, 0, 0, 0, 0, 0, 0);
+    }
+
     public void setMeasurer(BasicMeasure.Measurer measurer) {
         mMeasurer = measurer;
         mDependencyGraph.setMeasurer(measurer);

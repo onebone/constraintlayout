@@ -10,6 +10,10 @@ dependencies {
     testImplementation 'org.testng:testng:7.3.0'
 }
 
+repositories {
+  mavenCentral()
+}
+
 test {
     useTestNG()
 
@@ -59,4 +63,9 @@ task publishLocal(type: Upload) {
             }
         }
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
