@@ -67,6 +67,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return null;
     }
 
+    <T> T findMotionView(Class<T>tClass) {
+        T tview = null;
+        ViewGroup root = ((ViewGroup) findViewById(android.R.id.content).getRootView());
+        ArrayList<ViewGroup> groups = new ArrayList<>();
+        groups.add(root);
+        while (!groups.isEmpty()) {
+            ViewGroup vg = groups.remove(0);
+            int n = vg.getChildCount();
+            for (int i = 0; i < n; i++) {
+                View view = vg.getChildAt(i);
+                if (tClass.isAssignableFrom(view.getClass())) {
+                    tview = (T) view;
+                    return tview;
+                }
+                if (view instanceof ViewGroup) {
+                    groups.add((ViewGroup) view);
+                }
+            }
+        }
+        return tview;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View mlView = findViewById(R.id.motionLayout);
         mMotionLayout = (mlView != null) ? (MotionLayout) mlView : findMotionLayout(root);
 
+        GraphView graphView =  findMotionView(GraphView.class);
+        if (graphView!=null) {
+            graphView.atachTo(mMotionLayout);
+        }
 
         if (mMotionLayout != null) {
             ArrayList<MotionScene.Transition> transition = mMotionLayout.getDefinedTransitions();
