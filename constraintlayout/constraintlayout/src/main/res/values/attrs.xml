@@ -1163,6 +1163,7 @@
         <attr name="dragThreshold" format="float" />
         <attr name="maxVelocity" format="float" />
         <attr name="maxAcceleration" format="float" />
+        <attr name="overSwipe" format="float" />
         <attr name="dragDirection" />
         <attr name="touchAnchorId" />
         <attr name="touchAnchorSide" />

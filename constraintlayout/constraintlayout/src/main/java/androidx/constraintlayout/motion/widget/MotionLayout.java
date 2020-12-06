@@ -1632,6 +1632,22 @@ public class MotionLayout extends ConstraintLayout implements
         invalidate();
     }
 
+    void setTouchProgress(float pos) {
+        Log.v(TAG, Debug.getLoc()+ " pos="+pos);
+        mCurrentState = UNSET;
+        setState(TransitionState.MOVING);
+
+        mTransitionInstantly = true;
+        mTransitionGoalPosition = pos;
+        mTransitionPosition = pos;
+        mTransitionLastTime = -1;
+        mAnimationStartTime = -1;
+        mInterpolator = null;
+
+        mInTransition = true;
+        invalidate();
+    }
+
     /**
      * Create a transition view for every view
      */
@@ -1783,7 +1799,7 @@ public class MotionLayout extends ConstraintLayout implements
      * @param currentVelocity
      */
     public void touchAnimateTo(int touchUpMode, float position, float currentVelocity) {
-        if (DEBUG) {
+        if (true) {
             Log.v(TAG, " " + Debug.getLocation() + " touchAnimateTo " + position + "   " + currentVelocity);
         }
         if (mScene == null) {
@@ -3285,11 +3301,11 @@ public class MotionLayout extends ConstraintLayout implements
                         if (Math.abs(lastVelocity) * mTransitionDuration <= EPSILON) {
                             mInTransition = false;
                         }
-                        if (lastVelocity > 0 && position >= 1.0f) {
+                        if (lastVelocity > 0 && position == 1.0f) {
                             mTransitionLastPosition = position = 1.0f;
                             mInTransition = false;
                         }
-                        if (lastVelocity < 0 && position <= 0) {
+                        if (lastVelocity < 0 && position == 0) {
                             mTransitionLastPosition = position = 0.0f;
                             mInTransition = false;
                         }
@@ -3318,7 +3334,7 @@ public class MotionLayout extends ConstraintLayout implements
                 mInTransition = false;
             }
 
-            if (position >= 1.0f || position <= 0.0f) {
+            if (position == 1.0f || position == 0.0f) {
                 mInTransition = false;
                 setState(TransitionState.FINISHED);
             }

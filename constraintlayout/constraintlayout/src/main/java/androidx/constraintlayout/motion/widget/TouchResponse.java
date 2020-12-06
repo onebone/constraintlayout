@@ -106,6 +106,7 @@ class TouchResponse {
     static final int FLAG_DISABLE_POST_SCROLL = 1;
     static final int FLAG_DISABLE_SCROLL = 2;
     private float mDragThreshold = 10;
+    private float mOverSwipe = 0.0f;
 
     TouchResponse(Context context, MotionLayout layout, XmlPullParser parser) {
         mMotionLayout = layout;
@@ -163,6 +164,8 @@ class TouchResponse {
                 mMaxVelocity = a.getFloat(attr, mMaxVelocity);
             } else if (attr == R.styleable.OnSwipe_maxAcceleration) {
                 mMaxAcceleration = a.getFloat(attr, mMaxAcceleration);
+            } else if (attr == R.styleable.OnSwipe_overSwipe) {
+                mOverSwipe = a.getFloat(attr, mOverSwipe);
             } else if (attr == R.styleable.OnSwipe_moveWhenScrollAtTop) {
                 mMoveWhenScrollAtTop = a.getBoolean(attr, mMoveWhenScrollAtTop);
             } else if (attr == R.styleable.OnSwipe_dragScale) {
@@ -406,10 +409,11 @@ class TouchResponse {
                     if (DEBUG) {
                         Log.v(TAG, "# ACTION_MOVE      CHANGE  = " + change);
                     }
-                    pos = Math.max(Math.min(pos + change, 1), 0);
 
-                    if (pos != mMotionLayout.getProgress()) {
-                        mMotionLayout.setProgress(pos);
+                    pos = Math.max(Math.min(pos + change, 1 + mOverSwipe), -mOverSwipe);
+
+                     if (pos != mMotionLayout.getProgress()) {
+                        mMotionLayout.setTouchProgress(pos);
                         if (DEBUG) {
                             Log.v(TAG, "# ACTION_MOVE progress <- " + pos);
                         }
@@ -421,6 +425,7 @@ class TouchResponse {
                     } else {
                         mMotionLayout.mLastVelocity = 0;
                     }
+
                     mLastTouchX = event.getRawX();
                     mLastTouchY = event.getRawY();
                 }
@@ -455,7 +460,17 @@ class TouchResponse {
                     Log.v(TAG, "# ACTION_UP mTouchDirectionX  = " + mTouchDirectionX);
                     Log.v(TAG, "# ACTION_UP         velocity  = " + velocity);
                 }
+                if (pos <= mOverSwipe || pos >= 1+mOverSwipe) {
+                    velocity = 0;
+                } else if (mOverSwipe>0 ){
+                    if (pos < 0) {
+                        velocity = velocity*(mOverSwipe+pos)/mOverSwipe;
+                    } else if (pos > 1) {
+                        velocity = velocity*(mOverSwipe+1-pos)/mOverSwipe;
 
+                    }
+
+                }
                 if (!Float.isNaN(velocity)) {
                     pos += velocity / 3; // TODO calibration & animation speed based on velocity
                 }

@@ -10,6 +10,7 @@
         <OnSwipe
             motion:dragDirection="dragUp"
             motion:touchAnchorId="@+id/button8"
+            motion:overSwipe="0.2"
             motion:touchAnchorSide="top" />
         <KeyFrameSet>
 
