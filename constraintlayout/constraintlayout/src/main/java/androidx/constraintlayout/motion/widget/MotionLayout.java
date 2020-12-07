@@ -24,7 +24,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.media.DeniedByServerException;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -248,15 +247,6 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * a app:currentState to define the starting state of the MotionLayout</li>
  * </ul>
  *
-
-
-
-
-
-
-
-
-
  *
  * <p>
  * <h2>OnSwipe (optional)</h2>
@@ -1694,7 +1684,7 @@ public class MotionLayout extends ConstraintLayout implements
              }
              // Allow helpers to access all the motionControllers after
              for (MotionHelper mDecoratorsHelper : mDecoratorsHelpers) {
-                 mDecoratorsHelper.preSetup(mFrameArrayList);
+                 mDecoratorsHelper.onPreSetup(this, mFrameArrayList);
              }
              for (int i = 0; i < count; i++) {
                  MotionController motionController = mFrameArrayList.get(findViewById(depends[i]));
@@ -2119,7 +2109,7 @@ public class MotionLayout extends ConstraintLayout implements
             }
             // Allow helpers to access all the motionControllers after
             for (MotionHelper mDecoratorsHelper : mDecoratorsHelpers) {
-                mDecoratorsHelper.preSetup(mFrameArrayList);
+                mDecoratorsHelper.onPreSetup(this, mFrameArrayList);
             }
             for (int i = 0; i < n; i++) {
                 MotionController motionController = mFrameArrayList.get(getChildAt(i));
@@ -3751,6 +3741,11 @@ public class MotionLayout extends ConstraintLayout implements
         if (mScene != null && mCurrentState != UNSET) {
             ConstraintSet cSet = mScene.getConstraintSet(mCurrentState);
             mScene.readFallback(this);
+            if (mDecoratorsHelpers != null) {
+                for (MotionHelper mh : mDecoratorsHelpers) {
+                    mh.onFinishedMotionScene(this);
+                }
+            }
             if (cSet != null) {
                 cSet.applyTo(this);
             }
@@ -4291,7 +4286,6 @@ public class MotionLayout extends ConstraintLayout implements
         }
         mScene.disableAutoTransition(disable);
     }
-
 
     /**
      * Enables (or disables) MotionLayout's onClick and onSwipe handling.

@@ -74,6 +74,14 @@
     <attr name="layout_constraintBaseline_toBaselineOf" format="reference|enum">
         <enum name="parent" value="0" />
     </attr>
+    <!-- Constrains the baseline of this view to the top of the given view ID. -->
+    <attr name="layout_constraintBaseline_toTopOf" format="reference|enum">
+        <enum name="parent" value="0" />
+    </attr>
+    <!-- Constrains the baseline of this view to the bottom of the given view ID. -->
+    <attr name="layout_constraintBaseline_toBottomOf" format="reference|enum">
+        <enum name="parent" value="0" />
+    </attr>
     <!-- Constrains the start edge of this view to the end edge of the given view ID. -->
     <attr name="layout_constraintStart_toEndOf" format="reference|enum">
         <enum name="parent" value="0" />
@@ -252,6 +260,24 @@
     </declare-styleable>
 
     <!-- =============================== End Carousel =============================== -->
+
+    <!-- =============================== Start FadeMove =============================== -->
+
+    <declare-styleable name="FadeMove">
+        <attr name="fadeMove_start" format="integer"/>
+        <attr name="fadeMove_end" format="integer"/>
+        <attr name="fadeMove_translationX" format="dimension"/>
+        <attr name="fadeMove_translationY" format="dimension"/>
+        <attr name="fadeMove_alpha" format="float"/>
+        <attr name="fadeMove_move" format="enum">
+            <enum name="auto" value = "-1" />
+            <enum name="north" value = "0" />
+            <enum name="south" value = "1" />
+            <enum name="east" value = "2" />
+            <enum name="west" value = "3" />
+        </attr>
+        <attr name="fadeMove_strict" format="boolean" />
+    </declare-styleable>    <!-- =============================== End FadeMove =============================== -->
 
     <!-- Used at design time to define to position the view -->
     <attr name="layout_editor_absoluteX" format="dimension" />
@@ -457,6 +483,8 @@
         <attr name="layout_constraintBottom_toTopOf" />
         <attr name="layout_constraintBottom_toBottomOf" />
         <attr name="layout_constraintBaseline_toBaselineOf" />
+        <attr name="layout_constraintBaseline_toTopOf" />
+        <attr name="layout_constraintBaseline_toBottomOf" />
         <attr name="layout_constraintStart_toEndOf" />
         <attr name="layout_constraintStart_toStartOf" />
         <attr name="layout_constraintEnd_toStartOf" />
@@ -587,6 +615,8 @@
         <attr name="layout_constraintBottom_toTopOf" />
         <attr name="layout_constraintBottom_toBottomOf" />
         <attr name="layout_constraintBaseline_toBaselineOf" />
+        <attr name="layout_constraintBaseline_toTopOf" />
+        <attr name="layout_constraintBaseline_toBottomOf" />
         <attr name="layout_constraintStart_toEndOf" />
         <attr name="layout_constraintStart_toStartOf" />
         <attr name="layout_constraintEnd_toStartOf" />
@@ -765,6 +795,8 @@
         <attr name="layout_constraintBottom_toTopOf" />
         <attr name="layout_constraintBottom_toBottomOf" />
         <attr name="layout_constraintBaseline_toBaselineOf" />
+        <attr name="layout_constraintBaseline_toTopOf" />
+        <attr name="layout_constraintBaseline_toBottomOf" />
         <attr name="layout_constraintStart_toEndOf" />
         <attr name="layout_constraintStart_toStartOf" />
         <attr name="layout_constraintEnd_toStartOf" />
@@ -1425,6 +1457,8 @@
         <attr name="layout_constraintBottom_toTopOf" />
         <attr name="layout_constraintBottom_toBottomOf" />
         <attr name="layout_constraintBaseline_toBaselineOf" />
+        <attr name="layout_constraintBaseline_toTopOf" />
+        <attr name="layout_constraintBaseline_toBottomOf" />
         <attr name="layout_constraintStart_toEndOf" />
         <attr name="layout_constraintStart_toStartOf" />
         <attr name="layout_constraintEnd_toStartOf" />

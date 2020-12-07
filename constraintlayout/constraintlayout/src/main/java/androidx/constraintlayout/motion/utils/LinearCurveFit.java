@@ -26,7 +26,7 @@ public class LinearCurveFit extends CurveFit {
     private double[] mT;
     private double[][] mY;
     private double mTotalLength = Double.NaN;
-    private boolean mExterpolate = true;
+    private boolean mExtrapolate = true;
     double[] mSlopeTemp;
 
     public LinearCurveFit(double[] time, double[][] y) {
@@ -103,7 +103,7 @@ public class LinearCurveFit extends CurveFit {
     public void getPos(double t, double[] v) {
         final int n = mT.length;
         final int dim = mY[0].length;
-        if (mExterpolate) {
+        if (mExtrapolate) {
             if (t <= mT[0]) {
                 getSlope(mT[0], mSlopeTemp);
                 for (int j = 0; j < dim; j++) {
@@ -133,7 +133,6 @@ public class LinearCurveFit extends CurveFit {
             }
         }
 
-
         for (int i = 0; i < n - 1; i++) {
             if (t == mT[i]) {
                 for (int j = 0; j < dim; j++) {
@@ -157,7 +156,7 @@ public class LinearCurveFit extends CurveFit {
     public void getPos(double t, float[] v) {
         final int n = mT.length;
         final int dim = mY[0].length;
-        if (mExterpolate) {
+        if (mExtrapolate) {
             if (t <= mT[0]) {
                 getSlope(mT[0], mSlopeTemp);
                 for (int j = 0; j < dim; j++) {
@@ -209,7 +208,7 @@ public class LinearCurveFit extends CurveFit {
 
     public double getPos(double t, int j) {
         final int n = mT.length;
-        if (mExterpolate) {
+        if (mExtrapolate) {
             if (t <= mT[0]) {
                 return mY[0][j]  + (t - mT[0]) * getSlope(mT[0],j);
             }
